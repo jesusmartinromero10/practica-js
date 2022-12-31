@@ -195,22 +195,29 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano){
             if (comproba=== '💧'){
                 turno = false
                 console.log('JUGADOR1')
+                console.log('lleno1')
                 console.table(jugador1)
+                console.log('vacio1') 
                 console.table(vacio1)
                 console.log('JUGADOR2')
+                console.log('lleno2')
                 console.table(jugador2)
+                console.log('vacio2')
                 console.table(vacio2)
                 console.log('agua')
             }
             else if (comproba === '💥'){
                 console.log('JUGADOR1')
- 
+                console.log('lleno1')
                 console.table(jugador1)
-                console.table('vacio1',vacio1)
+                console.log('vacio1')
+                console.table(vacio1)
                 console.log('JUGADOR2')
+                console.log('lleno2')
 
                 console.table(jugador2)
-                console.table('vacio2',vacio2)
+                console.log('vacio2')
+                console.table(vacio2)
                 console.log('a ver si hundo')
                 if(comprobarSiHayBarcos(jugadorContrario) != true){
                     console.log(`ganador ${jugadorMano}`)
@@ -241,8 +248,14 @@ let vacio2 = tableroVacio(ROWS, COLS)
 // console.table(vacio2)
 // tableroJugador2=console.table(jugador2)
 
-while(turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')=== false || turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')=== false ){
-    let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
-    let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
-
+let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
+let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
+while(turnoJugador1=== false && turnoJugador2=== false ){
+    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
+    if (turnoJugador1 === true){
+        break
+    }
+    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
+    console.log(shoots1.length)
+    console.log(shoots2.length)
 }
