@@ -1,6 +1,8 @@
 const ROWS = 10
 const COLS = 10
-const SHOOT = 100
+const SHOOTS = 100
+let shoots1 = []
+let shoots2 = []
 
 function barco(name, size, simbol, amount) {
     this.name = name,
@@ -85,7 +87,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
             for (let j=0; j<barco5.size; j++){
                 board[y][x+j] = barco5.simbol
             }
-            console.log("Es crucero!");
+            console.log("Es lancha!");
         } else {
             i--
             }
@@ -94,25 +96,6 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
     return board
 } 
 
-// const barcos2 = {
-//     portavion: ['🛥','🛥','🛥','🛥','🛥'],
-//     buque: ['🛥','🛥','🛥','🛥'],
-//     submarino: ['🛥','🛥','🛥'],
-//     crucero:['🛥','🛥'],
-//     lancha: ['🛥']
-// }
-// const barcos= {
-//     portavion: {simbolo:['🛥','🛥','🛥','🛥','🛥'],
-//                 cantidad:1},
-//     buque: {simbolo:['🛥','🛥','🛥','🛥'],
-//             cantidad:1},
-//     submarino: {simbolo:['🛥','🛥','🛥'],
-//                 cantidad:2},
-//     crucero:{simbolo:['🛥','🛥'],
-//              cantidad:3},
-//     lancha: {simbolo:['🛥'],
-//              cantidad:3}
-// }
 const tablero2= ['','','','','','','','','','',]
 let board = []
 let tabla
@@ -153,20 +136,113 @@ function tableroVacio(rows,cols){
 
 const flota = [portavion, buque, submarino, crucero, lancha]
 
-jugador1 = creaTablero(ROWS, COLS, tableroVacio)
-jugador2 = creaTablero(ROWS, COLS, tableroVacio)
-vacio1 = tableroVacio(ROWS, COLS)
-vacio2 = tableroVacio(ROWS, COLS)
 
-console.log('JUGADOR1')
-console.table(vacio1)
-tableroJugador1=console.table(jugador1)
-console.log('JUGADOR2')
-console.table(vacio2)
-tableroJugador2=console.table(jugador2)
 
-console.log(vacio1.length)
-console.log(jugador1.length)
+function comprobarSiHayBarcos(numerojugador){
+    let rr = numerojugador.map(jugador => jugador.includes(portavion.simbol) || jugador.includes(buque.simbol) || jugador.includes(submarino.simbol) || jugador.includes(crucero.simbol) || jugador.includes(lancha.simbol))
+    
+    let comprobar = rr.find(comprobacion => comprobacion === true)
+    return comprobar
+    
+}
+function coordenada() {
+    y = getRandomInt(ROWS),
+    x = getRandomInt(ROWS) 
+    return x,y
 
-let rr = jugador1.map(jugador => jugador.includes(portavion.simbol) || jugador.includes(lancha.simbol))
-console.log(rr)
+}
+let yTiro = ''
+let xTiro = ''
+
+function shoot (tableroContrario){
+    yTiro = getRandomInt(ROWS)
+    xTiro = getRandomInt(ROWS) 
+    //let shoot = tableroContrario[yTiro][xTiro]
+    //return shoot
+    
+}
+
+function comprobarTocado(tableroContrario, vacioturno){
+    let shoot = tableroContrario[yTiro][xTiro]
+    if(shoot===''){
+        tableroContrario[yTiro][xTiro] = '💧'
+        vacioturno[yTiro][xTiro] = '💧'
+        return '💧'
+
+    }
+    else if (shoot === 'P' || shoot ==='B' || shoot ==='S' || shoot ==='C' || shoot ==='L'){
+
+        tableroContrario[yTiro][xTiro] = '💥'
+        vacioturno[yTiro][xTiro] = '💥'
+        return '💥'
+
+    }
+
+
+}
+
+function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano){
+    let turno = true
+    let ganador = false
+    while(turno){
+        shoot(jugadorContrario)
+        
+        let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+        if(arr.includes(true) === false){
+            shootMano.push([yTiro, xTiro])
+            let comproba = comprobarTocado(jugadorContrario, vacioturno, jugadorMano)
+            
+            if (comproba=== '💧'){
+                turno = false
+                console.log('JUGADOR1')
+                console.table(jugador1)
+                console.table(vacio1)
+                console.log('JUGADOR2')
+                console.table(jugador2)
+                console.table(vacio2)
+                console.log('agua')
+            }
+            else if (comproba === '💥'){
+                console.log('JUGADOR1')
+ 
+                console.table(jugador1)
+                console.table('vacio1',vacio1)
+                console.log('JUGADOR2')
+
+                console.table(jugador2)
+                console.table('vacio2',vacio2)
+                console.log('a ver si hundo')
+                if(comprobarSiHayBarcos(jugadorContrario) != true){
+                    console.log(`ganador ${jugadorMano}`)
+                    turno= false
+                    ganador = true
+                }
+            }
+
+            
+        }
+            
+            
+    }
+    return ganador
+
+}
+
+// turnoJugador(jugador2, shoots1, vacio1, 'jugador1')
+
+let jugador1 = creaTablero(ROWS, COLS, tableroVacio)
+let jugador2 = creaTablero(ROWS, COLS, tableroVacio)
+let vacio1 = tableroVacio(ROWS, COLS)
+let vacio2 = tableroVacio(ROWS, COLS)
+// console.log('JUGADOR1')
+// console.table(vacio1)
+// tableroJugador1=console.table(jugador1)
+// console.log('JUGADOR2')
+// console.table(vacio2)
+// tableroJugador2=console.table(jugador2)
+
+while(turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')=== false || turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')=== false ){
+    let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
+    let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
+
+}
