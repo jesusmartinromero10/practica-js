@@ -17,9 +17,9 @@ let submarino = new barco('submarino', 3, 'S', 2)
 let crucero = new barco('crucero', 2, 'C', 3)
 let lancha = new barco('lancha', 1, 'L', 3)
 
-function espaciosVacios (y,x, barco){
+function espaciosVacios (y,x, barco, board1){
     for (let i=0; i<barco.size ; i++){
-        if(board[y][x + i]=== ''){
+        if(board1[y][x + i]=== ''){
             let vacio = []
 
         }
@@ -29,13 +29,13 @@ function espaciosVacios (y,x, barco){
     }
     return true
 }
-function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
+function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
     for (let i = 0; i<barco1.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        if((board[y][x] === '') && (barco1.size + x <= 10) && (espaciosVacios(y,x,barco1)=== true)){
+        if((board1[y][x] === '') && (barco1.size + x <= 10) && (espaciosVacios(y,x,barco1, board1)=== true)){
             for (let j=0; j<barco1.size; j++){
-                board[y][x+j] += barco1.simbol
+                board1[y][x+j] += barco1.simbol
 
             }
             console.log("Es portavion!");
@@ -46,9 +46,9 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
     for (let i = 0; i<barco2.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        if((board[y][x] === '') && (barco2.size + x <= 10 && (espaciosVacios(y,x,barco2)=== true))){
+        if((board1[y][x] === '') && (barco2.size + x <= 10 && (espaciosVacios(y,x,barco2, board1)=== true))){
             for (let j=0; j<barco2.size; j++){
-                board[y][x+j] = barco2.simbol
+                board1[y][x+j] = barco2.simbol
             }
             console.log("Es buque!");
         } else {
@@ -58,9 +58,9 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
     for (let i = 0; i<barco3.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        if((board[y][x] === '') && (barco3.size + x <= 10) && (espaciosVacios(y,x,barco3)=== true)){
+        if((board1[y][x] === '') && (barco3.size + x <= 10) && (espaciosVacios(y,x,barco3, board1)=== true)){
             for (let j=0; j<barco3.size; j++){
-                board[y][x+j] = barco3.simbol
+                board1[y][x+j] = barco3.simbol
             }
             console.log("Es submarino!");
         } else {
@@ -70,9 +70,9 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
     for (let i = 0; i<barco4.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        if((board[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4)=== true)){
+        if((board1[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4, board1)=== true)){
             for (let j=0; j<barco4.size; j++){
-                board[y][x+j] = barco4.simbol
+                board1[y][x+j] = barco4.simbol
             }
             console.log("Es crucero!");
         } else {
@@ -83,9 +83,9 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
     for (let i = 0; i<barco5.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        if((board[y][x] === '') && (barco5.size + x <= 10) && (espaciosVacios(y,x,barco5)=== true)){
+        if((board1[y][x] === '') && (barco5.size + x <= 10) && (espaciosVacios(y,x,barco5, board1)=== true)){
             for (let j=0; j<barco5.size; j++){
-                board[y][x+j] = barco5.simbol
+                board1[y][x+j] = barco5.simbol
             }
             console.log("Es lancha!");
         } else {
@@ -93,21 +93,20 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5) {
             }
         }
 
-    return board
+    return board1
 } 
 
 const tablero2= ['','','','','','','','','','',]
-let board = []
 let tabla
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
     }
 
-function creaTablero(rows,cols,collback){
-    collback(rows,cols)
+function creaTablero(rows,cols,callback){
+    let board1 = callback(rows,cols)
 
-    let boardMezclado = colocarbarcos(portavion, buque, submarino, crucero, lancha)
+    let boardMezclado = colocarbarcos(portavion, buque, submarino, crucero, lancha, board1)
 
     
         console.log('pppp',boardMezclado)
@@ -121,6 +120,7 @@ function creaTablero(rows,cols,collback){
 }
 
 function tableroVacio(rows,cols){
+    let newBoard = []
     for(let i = 0; i < rows; i++) {
         // una fila cualquiera
         let row = []
@@ -129,9 +129,9 @@ function tableroVacio(rows,cols){
             //console.log(j, i)
             row[j] = tablero2[i]
         }
-        board[i] = row
+        newBoard[i] = row
     }
-    return board
+    return newBoard
 }
 
 const flota = [portavion, buque, submarino, crucero, lancha]
@@ -235,18 +235,13 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano){
 
 }
 
-// turnoJugador(jugador2, shoots1, vacio1, 'jugador1')
+
 
 let jugador1 = creaTablero(ROWS, COLS, tableroVacio)
 let jugador2 = creaTablero(ROWS, COLS, tableroVacio)
 let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
-// console.log('JUGADOR1')
-// console.table(vacio1)
-// tableroJugador1=console.table(jugador1)
-// console.log('JUGADOR2')
-// console.table(vacio2)
-// tableroJugador2=console.table(jugador2)
+
 
 let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
 let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
