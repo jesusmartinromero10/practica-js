@@ -4,18 +4,35 @@ const SHOOTS = 100
 let shoots1 = []
 let shoots2 = []
 
-function barco(name, size, simbol, amount) {
+
+function barco(name, size, simbol, amount, vida) {
     this.name = name,
     this.size = size,
     this.simbol = simbol,
     this.amount = amount
+    this.vida = vida
 }
 
-let portavion = new barco('portavion', 5, 'P', 1)
-let buque = new barco('buque', 4, 'B', 1)
-let submarino = new barco('submarino', 3, 'S', 2)
-let crucero = new barco('crucero', 2, 'C', 3)
-let lancha = new barco('lancha', 1, 'L', 3)
+let portavion = new barco('portavion', 5, 'P', 1, 5)
+let buque = new barco('buque', 4, 'B', 1, 4)
+let submarino = new barco('submarino', 3, 'S', 2, 3)
+let crucero = new barco('crucero', 2, 'C', 3, 2)
+let lancha = new barco('lancha', 1, 'L', 3, 1)
+let vida1 = {
+    portavion : portavion.vida,
+    buque: buque.vida,
+    submarino : submarino.vida,
+    crucero : crucero.vida,
+    lacha : lancha.vida
+}
+
+let vida2 = {
+    portavion : portavion.vida,
+    buque : buque.vida,
+    submarino : submarino.vida,
+    crucero : crucero.vida,
+    lacha : lancha.vida
+}
 
 function espaciosVacios (y,x, barco, board1){
     for (let i=0; i<barco.size ; i++){
@@ -73,6 +90,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
         if((board1[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4, board1)=== true)){
             for (let j=0; j<barco4.size; j++){
                 board1[y][x+j] = barco4.simbol
+                
             }
             console.log("Es crucero!");
         } else {
@@ -92,6 +110,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
             i--
             }
         }
+    
 
     return board1
 } 
@@ -162,7 +181,7 @@ function shoot (tableroContrario){
     
 }
 
-function comprobarTocado(tableroContrario, vacioturno){
+function comprobarTocado(tableroContrario, vacioturno, jug){
     let shoot = tableroContrario[yTiro][xTiro]
     if(shoot===''){
         tableroContrario[yTiro][xTiro] = '💧'
@@ -171,6 +190,27 @@ function comprobarTocado(tableroContrario, vacioturno){
 
     }
     else if (shoot === 'P' || shoot ==='B' || shoot ==='S' || shoot ==='C' || shoot ==='L'){
+        if (shoot === 'L'){
+            console.log('Tocado y Hundido')
+        }
+        else if(shoot === 'P'){
+            jug.portavion -= 1
+            if(jug.portavion === 0){
+                console.log('Tocado y Hundido')
+            } else {
+                console.log('Tocado')
+                
+            }
+        
+        }
+        else if(shoot === 'B'){
+            jug.buque -= 1
+            if(jug.buque === 0){
+                console.log('Tocado y Hundido')
+            } else{
+                console.log('Tocado')
+            }
+        }
 
         tableroContrario[yTiro][xTiro] = '💥'
         vacioturno[yTiro][xTiro] = '💥'
@@ -181,7 +221,7 @@ function comprobarTocado(tableroContrario, vacioturno){
 
 }
 
-function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano){
+function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida){
     let turno = true
     let ganador = false
     while(turno){
@@ -190,7 +230,7 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano){
         let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
         if(arr.includes(true) === false){
             shootMano.push([yTiro, xTiro])
-            let comproba = comprobarTocado(jugadorContrario, vacioturno, jugadorMano)
+            let comproba = comprobarTocado(jugadorContrario, vacioturno, vida)
             
             if (comproba=== '💧'){
                 turno = false
@@ -243,14 +283,17 @@ let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
 
 
-let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
-let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
+let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1)
+let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2)
 while(turnoJugador1=== false && turnoJugador2=== false ){
-    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1')
+    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1)
     if (turnoJugador1 === true){
         break
     }
-    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2')
+    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2)
     console.log(shoots1.length)
     console.log(shoots2.length)
 }
+
+console.log(vida1.portavion -1)
+
