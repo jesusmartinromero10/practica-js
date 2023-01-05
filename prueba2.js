@@ -5,6 +5,7 @@ let shoots1 = []
 let shoots2 = []
 
 
+
 function barco(name, size, simbol, amount, vida) {
     this.name = name,
     this.size = size,
@@ -34,6 +35,39 @@ let vida2 = {
     lacha : lancha.vida
 }
 
+
+let submarinoJugador1 = {
+    sub1 : {coordenada : [],
+            vidas : submarino.vida},
+    sub2 :{coordenada : [],
+        vidas : submarino.vida} 
+}
+
+let cruceroJugador1 = {
+    cruce1 : {coordenada : [],
+        vidas : crucero.vida},
+    cruce2 : {coordenada : [],
+        vidas : crucero.vida},
+    cruce3 : {coordenada : [],
+        vidas : crucero.vida}
+}
+
+let submarinoJugador2 = {
+    sub1 : {coordenada : [],
+            vidas : submarino.vida},
+    sub2 :{coordenada : [],
+        vidas : submarino.vida} 
+}
+
+let cruceroJugador2 = {
+    cruce1 : {coordenada : [],
+        vidas : crucero.vida},
+    cruce2 : {coordenada : [],
+        vidas : crucero.vida},
+    cruce3 : {coordenada : [],
+        vidas : crucero.vida}
+}
+
 function espaciosVacios (y,x, barco, board1){
     for (let i=0; i<barco.size ; i++){
         if(board1[y][x + i]=== ''){
@@ -46,7 +80,7 @@ function espaciosVacios (y,x, barco, board1){
     }
     return true
 }
-function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
+function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarinoJugador, cruceroJugador) {
     for (let i = 0; i<barco1.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
@@ -78,6 +112,16 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
         if((board1[y][x] === '') && (barco3.size + x <= 10) && (espaciosVacios(y,x,barco3, board1)=== true)){
             for (let j=0; j<barco3.size; j++){
                 board1[y][x+j] = barco3.simbol
+                if(i===0){
+                    submarinoJugador.sub1.coordenada.push([y,x+j]) 
+                }
+                else if (i === 1){
+                    submarinoJugador.sub2.coordenada.push([y,x+j])
+
+                }
+                
+
+                
             }
             console.log("Es submarino!");
         } else {
@@ -87,9 +131,21 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1) {
     for (let i = 0; i<barco4.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
+        
         if((board1[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4, board1)=== true)){
             for (let j=0; j<barco4.size; j++){
                 board1[y][x+j] = barco4.simbol
+                if(i===0){
+                    cruceroJugador.cruce1.coordenada.push([y,x+j])
+
+                }
+                else if (i ===1){
+                    cruceroJugador.cruce2.coordenada.push([y,x+j])
+                }
+                else if(i===2){
+                    cruceroJugador.cruce3.coordenada.push([y,x+j])
+                }
+                
                 
             }
             console.log("Es crucero!");
@@ -122,10 +178,10 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
     }
 
-function creaTablero(rows,cols,callback){
+function creaTablero(rows,cols,callback, submarinoJugador, cruceroJugador){
     let board1 = callback(rows,cols)
 
-    let boardMezclado = colocarbarcos(portavion, buque, submarino, crucero, lancha, board1)
+    let boardMezclado = colocarbarcos(portavion, buque, submarino, crucero, lancha, board1, submarinoJugador, cruceroJugador)
 
     
         console.log('pppp',boardMezclado)
@@ -181,7 +237,7 @@ function shoot (tableroContrario){
     
 }
 
-function comprobarTocado(tableroContrario, vacioturno, jug){
+function comprobarTocado(tableroContrario, vacioturno, jug, submarinoJugador, cruceroJugador){
     let shoot = tableroContrario[yTiro][xTiro]
     if(shoot===''){
         tableroContrario[yTiro][xTiro] = '💧'
@@ -211,17 +267,81 @@ function comprobarTocado(tableroContrario, vacioturno, jug){
                 console.log('Tocado')
             }
         }
+        
+        else if( shoot === 'S'){
+            let comprobar = submarinoJugador.sub1.coordenada.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+            let comprobar2 = submarinoJugador.sub2.coordenada.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+            if(comprobar.includes(true)){
+                submarinoJugador.sub1.vidas -= 1
+                if(submarinoJugador.sub1.vidas === 0){
+                    console.log('Tocado y Hundido')
+                }
+                else{ 
+                    console.log('Tocado')
+
+                }
+            }
+
+            else if(comprobar2.includes(true)){
+                submarinoJugador.sub2.vidas -= 1
+                if(submarinoJugador.sub2.vidas === 0){
+                    console.log('Tocado y Hundido')
+                }
+                else{ 
+                    console.log('Tocado')
+
+                }
+            }
+        }
+        else if (shoot === 'C'){
+            let comprobar = cruceroJugador.cruce1.coordenada.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+            let comprobar2 = cruceroJugador.cruce2.coordenada.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+            let comprobar3 = cruceroJugador.cruce3.coordenada.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
+            if(comprobar.includes(true)){
+                cruceroJugador.cruce1.vidas -= 1
+                if(cruceroJugador.cruce1.vidas === 0){
+                    console.log('Tocado y Hundido')
+                }
+                else{ 
+                    console.log('Tocado')
+
+                }
+            }
+
+            else if(comprobar2.includes(true)){
+                cruceroJugador.cruce2.vidas -= 1
+                if(cruceroJugador.cruce2.vidas === 0){
+                    console.log('Tocado y Hundido')
+                }
+                else{ 
+                    console.log('Tocado')
+
+                }
+            }
+            else if(comprobar3.includes(true)){
+                cruceroJugador.cruce3.vidas -=1
+                if(cruceroJugador.cruce3.vidas===0){
+                    console.log('Tocado y Hundido')
+                }
+                else { 
+                    console.log('Tocado')
+                }
+            } 
+        }
+    
+}
+        
 
         tableroContrario[yTiro][xTiro] = '💥'
         vacioturno[yTiro][xTiro] = '💥'
         return '💥'
 
-    }
-
-
 }
 
-function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida){
+
+
+
+function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador){
     let turno = true
     let ganador = false
     while(turno){
@@ -230,7 +350,7 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
         let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
         if(arr.includes(true) === false){
             shootMano.push([yTiro, xTiro])
-            let comproba = comprobarTocado(jugadorContrario, vacioturno, vida)
+            let comproba = comprobarTocado(jugadorContrario, vacioturno, vida, submarinoJugador, cruceroJugador)
             
             if (comproba=== '💧'){
                 turno = false
@@ -277,23 +397,34 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
 
 
 
-let jugador1 = creaTablero(ROWS, COLS, tableroVacio)
-let jugador2 = creaTablero(ROWS, COLS, tableroVacio)
+let jugador1 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador1, cruceroJugador1)
+let jugador2 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador2, cruceroJugador2)
 let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
 
 
-let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1)
-let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2)
+let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2)
+let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1)
 while(turnoJugador1=== false && turnoJugador2=== false ){
-    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1)
+    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2)
     if (turnoJugador1 === true){
         break
     }
-    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2)
+    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1)
     console.log(shoots1.length)
     console.log(shoots2.length)
 }
 
-console.log(vida1.portavion -1)
+console.log('sub1',submarinoJugador1.sub1.coordenada)
+console.log('sub1-2',submarinoJugador1.sub2.coordenada)
+console.log('cruc1',cruceroJugador1.cruce1.coordenada)
+console.log('cruic1-2',cruceroJugador1.cruce2.coordenada)
+console.log('cruz1-3', cruceroJugador1.cruce3.coordenada)
+console.log('sub2',submarinoJugador2.sub1.coordenada)
+console.log('sub2-2',submarinoJugador2.sub2.coordenada)
+console.log('cruc2',cruceroJugador2.cruce1.coordenada)
+console.log('cruic2-2',cruceroJugador2.cruce2.coordenada)
+console.log('cruz2-3', cruceroJugador2.cruce3.coordenada)
+
+
 
