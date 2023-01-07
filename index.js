@@ -351,46 +351,19 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
         let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
         if(arr.includes(true) === false){
             shootMano.push([yTiro, xTiro])
+            console.log('Turno de',jugadorMano)
+            console.log(`Disparo del ${jugadorMano} es ${yTiro}, ${xTiro}`)
+            console.log(`Le quedan ${SHOOTS-shootMano.length} disparos`)
+            console.log(`Tablero de barcos del ${jugadorMano}`)
+            console.table(jugadorTableroMano)
+            console.log('Tablero vacio oponente')
+            console.table(vacioturno)
             let comproba = comprobarTocado(jugadorContrario, vacioturno, vida, submarinoJugador, cruceroJugador)
-            
             if (comproba=== '💧'){
                 turno = false
-                console.log('jugadormano',jugadorMano)
-                console.log(`Tablero de barcos del ${jugadorMano}`)
-                console.table(jugadorTableroMano)
-                console.log('Tablero vacio oponente')
-                console.table(vacioturno)
-                //console.log(vacioturno)
-                // console.log('JUGADOR1')
-                // console.log('lleno1')
-                // console.table(jugador1)
-                // console.log('vacio1') 
-                // console.table(vacio1)
-                // console.log('JUGADOR2')
-                // console.log('lleno2')
-                // console.table(jugador2)
-                // console.log('vacio2')
-                // console.table(vacio2)
-                // console.log('agua')
             }
             else if (comproba === '💥'){
-                console.log('Turno del ',jugadorMano)
-                console.log(`Tablero de barcos del ${jugadorMano}`)
-                console.table(jugadorTableroMano)
-                console.log('Tablero vacio oponente')
-                console.table(vacioturno)
-                // console.log('JUGADOR1')
-                // console.log('lleno1')
-                // console.table(jugador1)
-                // console.log('vacio1')
-                // console.table(vacio1)
-                // console.log('JUGADOR2')
-                // console.log('lleno2')
-
-                // console.table(jugador2)
-                // console.log('vacio2')
-                // console.table(vacio2)
-                // console.log('a ver si hundo')
+               
                 if(comprobarSiHayBarcos(jugadorContrario) != true){
                     console.log(`GANADOR ESSSSSSS ${jugadorMano}`)
                     turno= false
@@ -413,8 +386,13 @@ let jugador1 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador1, cruceroJ
 let jugador2 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador2, cruceroJugador2)
 let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
+console.log('COMIENZA EL JUEGO')
+console.log('Tablero Jugador 1')
+console.table(jugador1)
+console.log('Tablero Jugador 2')
+console.table(jugador2)
 
-
+console.log('Comienzan las rondas de disparos')
 let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1)
 let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
 while(turnoJugador1=== false && turnoJugador2=== false ){
@@ -427,16 +405,7 @@ while(turnoJugador1=== false && turnoJugador2=== false ){
     console.log(shoots2.length)
 }
 
-// console.log('sub1',submarinoJugador1.sub1.coordenada)
-// console.log('sub1-2',submarinoJugador1.sub2.coordenada)
-// console.log('cruc1',cruceroJugador1.cruce1.coordenada)
-// console.log('cruic1-2',cruceroJugador1.cruce2.coordenada)
-// console.log('cruz1-3', cruceroJugador1.cruce3.coordenada)
-// console.log('sub2',submarinoJugador2.sub1.coordenada)
-// console.log('sub2-2',submarinoJugador2.sub2.coordenada)
-// console.log('cruc2',cruceroJugador2.cruce1.coordenada)
-// console.log('cruic2-2',cruceroJugador2.cruce2.coordenada)
-// console.log('cruz2-3', cruceroJugador2.cruce3.coordenada)
+
 
 
 
