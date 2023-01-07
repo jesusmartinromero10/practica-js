@@ -341,7 +341,7 @@ function comprobarTocado(tableroContrario, vacioturno, jug, submarinoJugador, cr
 
 
 
-function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador){
+function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador, jugadorTableroMano){
     let turno = true
     let ganador = false
     while(turno){
@@ -354,31 +354,38 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
             
             if (comproba=== '💧'){
                 turno = false
-                console.log('JUGADOR1')
-                console.log('lleno1')
-                console.table(jugador1)
-                console.log('vacio1') 
-                console.table(vacio1)
-                console.log('JUGADOR2')
-                console.log('lleno2')
-                console.table(jugador2)
-                console.log('vacio2')
-                console.table(vacio2)
-                console.log('agua')
+                console.log('jugadormano',jugadorMano)
+                console.table(jugadorTableroMano)
+                console.table(vacioturno)
+                //console.log(vacioturno)
+                // console.log('JUGADOR1')
+                // console.log('lleno1')
+                // console.table(jugador1)
+                // console.log('vacio1') 
+                // console.table(vacio1)
+                // console.log('JUGADOR2')
+                // console.log('lleno2')
+                // console.table(jugador2)
+                // console.log('vacio2')
+                // console.table(vacio2)
+                // console.log('agua')
             }
             else if (comproba === '💥'){
-                console.log('JUGADOR1')
-                console.log('lleno1')
-                console.table(jugador1)
-                console.log('vacio1')
-                console.table(vacio1)
-                console.log('JUGADOR2')
-                console.log('lleno2')
+                console.log('jugadormano',jugadorMano)
+                console.table(jugadorTableroMano)
+                console.table(vacioturno)
+                // console.log('JUGADOR1')
+                // console.log('lleno1')
+                // console.table(jugador1)
+                // console.log('vacio1')
+                // console.table(vacio1)
+                // console.log('JUGADOR2')
+                // console.log('lleno2')
 
-                console.table(jugador2)
-                console.log('vacio2')
-                console.table(vacio2)
-                console.log('a ver si hundo')
+                // console.table(jugador2)
+                // console.log('vacio2')
+                // console.table(vacio2)
+                // console.log('a ver si hundo')
                 if(comprobarSiHayBarcos(jugadorContrario) != true){
                     console.log(`ganador ${jugadorMano}`)
                     turno= false
@@ -403,28 +410,28 @@ let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
 
 
-let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2)
-let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1)
+let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1)
+let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
 while(turnoJugador1=== false && turnoJugador2=== false ){
-    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2)
+    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1)
     if (turnoJugador1 === true){
         break
     }
-    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1)
+    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
     console.log(shoots1.length)
     console.log(shoots2.length)
 }
 
-console.log('sub1',submarinoJugador1.sub1.coordenada)
-console.log('sub1-2',submarinoJugador1.sub2.coordenada)
-console.log('cruc1',cruceroJugador1.cruce1.coordenada)
-console.log('cruic1-2',cruceroJugador1.cruce2.coordenada)
-console.log('cruz1-3', cruceroJugador1.cruce3.coordenada)
-console.log('sub2',submarinoJugador2.sub1.coordenada)
-console.log('sub2-2',submarinoJugador2.sub2.coordenada)
-console.log('cruc2',cruceroJugador2.cruce1.coordenada)
-console.log('cruic2-2',cruceroJugador2.cruce2.coordenada)
-console.log('cruz2-3', cruceroJugador2.cruce3.coordenada)
+// console.log('sub1',submarinoJugador1.sub1.coordenada)
+// console.log('sub1-2',submarinoJugador1.sub2.coordenada)
+// console.log('cruc1',cruceroJugador1.cruce1.coordenada)
+// console.log('cruic1-2',cruceroJugador1.cruce2.coordenada)
+// console.log('cruz1-3', cruceroJugador1.cruce3.coordenada)
+// console.log('sub2',submarinoJugador2.sub1.coordenada)
+// console.log('sub2-2',submarinoJugador2.sub2.coordenada)
+// console.log('cruc2',cruceroJugador2.cruce1.coordenada)
+// console.log('cruic2-2',cruceroJugador2.cruce2.coordenada)
+// console.log('cruz2-3', cruceroJugador2.cruce3.coordenada)
 
 
 
