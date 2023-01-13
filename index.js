@@ -89,7 +89,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarino
                 board1[y][x+j] += barco1.simbol
 
             }
-            console.log("Es portavion!");
+            
         } else {
         i--
         }
@@ -101,7 +101,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarino
             for (let j=0; j<barco2.size; j++){
                 board1[y][x+j] = barco2.simbol
             }
-            console.log("Es buque!");
+            
         } else {
             i--
             }
@@ -123,7 +123,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarino
 
                 
             }
-            console.log("Es submarino!");
+            
         } else {
             i--
             }
@@ -148,7 +148,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarino
                 
                 
             }
-            console.log("Es crucero!");
+            
         } else {
             i--
             }
@@ -161,7 +161,7 @@ function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarino
             for (let j=0; j<barco5.size; j++){
                 board1[y][x+j] = barco5.simbol
             }
-            console.log("Es lancha!");
+            
         } else {
             i--
             }
@@ -184,7 +184,7 @@ function creaTablero(rows,cols,callback, submarinoJugador, cruceroJugador){
     let boardMezclado = colocarbarcos(portavion, buque, submarino, crucero, lancha, board1, submarinoJugador, cruceroJugador)
 
     
-        console.log('pppp',boardMezclado)
+        
         tabla = []
         for (let fila of boardMezclado){
             
@@ -340,7 +340,12 @@ function comprobarTocado(tableroContrario, vacioTurno, jug, submarinoJugador, cr
 }
 
 
-
+function printHeading(text) {
+    const pad = '='.repeat(text.length)
+    console.log(`==========${pad}==========`)
+    console.log(`========= ${text} =========`)
+    console.log(`==========${pad}==========`)
+}
 
 function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador, jugadorTableroMano){
     let turno = true
@@ -351,12 +356,12 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
         let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
         if(arr.includes(true) === false){
             shootMano.push([yTiro, xTiro])
-            console.log('Turno de',jugadorMano)
-            console.log(`Disparo del ${jugadorMano} es ${yTiro}, ${xTiro}`)
-            console.log(`Le quedan ${SHOOTS-shootMano.length} disparos`)
-            console.log(`Tablero de barcos del ${jugadorMano}`)
+            printHeading(`Turno de ${jugadorMano}`)
+            printHeading(`Disparo del ${jugadorMano} es ${yTiro}, ${xTiro}`)
+            printHeading(`Le quedan ${SHOOTS-shootMano.length} disparos`)
+            printHeading(`Tablero de barcos del ${jugadorMano}`)
             console.table(jugadorTableroMano)
-            console.log('Tablero vacio oponente')
+            printHeading('Tablero vacio oponente')
             console.table(vacioturno)
             let comproba = comprobarTocado(jugadorContrario, vacioturno, vida, submarinoJugador, cruceroJugador)
             if (comproba=== '💧'){
@@ -365,7 +370,11 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
             else if (comproba === '💥'){
                
                 if(comprobarSiHayBarcos(jugadorContrario) != true){
-                    console.log(`GANADOR ESSSSSSS ${jugadorMano}`)
+                    printHeading(`GANADOR ESSSSSSS ${jugadorMano}`)
+                    printHeading(`Tablero de barcos del ${jugadorMano}`) 
+                    console.table(jugadorTableroMano)
+                    printHeading('Tablero oponente')
+                    console.table(vacioturno)
                     turno= false
                     ganador = true
                 }
@@ -386,10 +395,10 @@ let jugador1 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador1, cruceroJ
 let jugador2 = creaTablero(ROWS, COLS, tableroVacio, submarinoJugador2, cruceroJugador2)
 let vacio1 = tableroVacio(ROWS, COLS)
 let vacio2 = tableroVacio(ROWS, COLS)
-console.log('COMIENZA EL JUEGO')
-console.log('Tablero Jugador 1')
+printHeading('COMIENZA EL JUEGO')
+printHeading('Tablero Jugador 1')
 console.table(jugador1)
-console.log('Tablero Jugador 2')
+printHeading('Tablero Jugador 2')
 console.table(jugador2)
 
 console.log('Comienzan las rondas de disparos')
@@ -401,8 +410,7 @@ while(turnoJugador1=== false && turnoJugador2=== false ){
         break
     }
     turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
-    console.log(shoots1.length)
-    console.log(shoots2.length)
+    
 }
 
 
