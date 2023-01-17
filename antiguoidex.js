@@ -80,201 +80,91 @@ function espaciosVacios (y,x, barco, board1){
     }
     return true
 }
-
-function espaciosVaciosY (y,x, barco, board1){
-    for (let i=0; i<barco.size ; i++){
-        if(board1[y + i][x]=== ''){
-            let vacio = []
-
-        }
-        else {
-            return false
-        }
-    }
-    return true
-}
-
 function colocarbarcos(barco1, barco2, barco3, barco4, barco5, board1, submarinoJugador, cruceroJugador) {
     for (let i = 0; i<barco1.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        let vertical = getRandomInt(10)
-        if (vertical < 5) {
-            if((board1[y][x] === '') && (barco1.size + x <= 10) && (espaciosVacios(y,x,barco1, board1)=== true)){
-                for (let j=0; j<barco1.size; j++){
-                    board1[y][x+j] += barco1.simbol
-    
-                }
-                
-            } else {
-            i--
+        if((board1[y][x] === '') && (barco1.size + x <= 10) && (espaciosVacios(y,x,barco1, board1)=== true)){
+            for (let j=0; j<barco1.size; j++){
+                board1[y][x+j] += barco1.simbol
+
             }
-
-
-        }else if (vertical >= 5){
-            if((board1[y][x] === '') && (barco1.size + y <= 10) && (espaciosVaciosY(y,x,barco1, board1)=== true)){
-                for (let j=0; j<barco1.size; j++){
-                    board1[y + j][x] += barco1.simbol
-    
-                }
-                
-            } else {
-            i--
-            }
-
+            
+        } else {
+        i--
         }
     }
     for (let i = 0; i<barco2.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        let vertical = getRandomInt(10)
-        if (vertical < 5){
-            if((board1[y][x] === '') && (barco2.size + x <= 10 && (espaciosVacios(y,x,barco2, board1)=== true))){
-                for (let j=0; j<barco2.size; j++){
-                    board1[y][x+j] = barco2.simbol
-                }
-                
-            } else {
-                i--
-                }
+        if((board1[y][x] === '') && (barco2.size + x <= 10 && (espaciosVacios(y,x,barco2, board1)=== true))){
+            for (let j=0; j<barco2.size; j++){
+                board1[y][x+j] = barco2.simbol
             }
-            else if (vertical >= 5){
-                if((board1[y][x] === '') && (barco2.size + y <= 10) && (espaciosVaciosY(y,x,barco2, board1)=== true)){
-                    for (let j=0; j<barco2.size; j++){
-                        board1[y + j][x] += barco2.simbol
-        
-                    }
-                    
-                } else {
-                i--
-                }
-
+            
+        } else {
+            i--
             }
-
-
         }
     for (let i = 0; i<barco3.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        let vertical = getRandomInt(10)
-        if (vertical < 5){
+        if((board1[y][x] === '') && (barco3.size + x <= 10) && (espaciosVacios(y,x,barco3, board1)=== true)){
+            for (let j=0; j<barco3.size; j++){
+                board1[y][x+j] = barco3.simbol
+                if(i===0){
+                    submarinoJugador.sub1.coordenada.push([y,x+j]) 
+                }
+                else if (i === 1){
+                    submarinoJugador.sub2.coordenada.push([y,x+j])
 
-            if((board1[y][x] === '') && (barco3.size + x <= 10) && (espaciosVacios(y,x,barco3, board1)=== true)){
-                for (let j=0; j<barco3.size; j++){
-                    board1[y][x+j] = barco3.simbol
-                    if(i===0){
-                        submarinoJugador.sub1.coordenada.push([y,x+j]) 
-                    }
-                    else if (i === 1){
-                        submarinoJugador.sub2.coordenada.push([y,x+j])
-    
-                    }
-                    
-    
-                    
                 }
                 
-            } else {
-                i--
-                }
 
-            }else if (vertical>= 5){
-
-                if((board1[y][x] === '') && (barco3.size + y <= 10) && (espaciosVaciosY(y,x,barco3, board1)=== true)){
-                    for (let j=0; j<barco3.size; j++){
-                        board1[y+j][x] = barco3.simbol
-                        if(i===0){
-                            submarinoJugador.sub1.coordenada.push([y+j,x]) 
-                        }
-                        else if (i === 1){
-                            submarinoJugador.sub2.coordenada.push([y+j,x])
-        
-                        }
-                        
-        
-                        
-                    }
-                    
-                } else {
-                    i--
-                    }
+                
+            }
+            
+        } else {
+            i--
+            }
         }
-    }
     for (let i = 0; i<barco4.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        let vertical = getRandomInt(10)
-        if (vertical < 5){
+        
+        if((board1[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4, board1)=== true)){
+            for (let j=0; j<barco4.size; j++){
+                board1[y][x+j] = barco4.simbol
+                if(i===0){
+                    cruceroJugador.cruce1.coordenada.push([y,x+j])
 
-            if((board1[y][x] === '') && (barco4.size + x <= 10) && (espaciosVacios(y,x,barco4, board1)=== true)){
-                for (let j=0; j<barco4.size; j++){
-                    board1[y][x+j] = barco4.simbol
-                    if(i===0){
-                        cruceroJugador.cruce1.coordenada.push([y,x+j])
-    
-                    }
-                    else if (i ===1){
-                        cruceroJugador.cruce2.coordenada.push([y,x+j])
-                    }
-                    else if(i===2){
-                        cruceroJugador.cruce3.coordenada.push([y,x+j])
-                    }
-                    
-                    
+                }
+                else if (i ===1){
+                    cruceroJugador.cruce2.coordenada.push([y,x+j])
+                }
+                else if(i===2){
+                    cruceroJugador.cruce3.coordenada.push([y,x+j])
                 }
                 
-            } else {
-                i--
-                }
-            }else if (vertical>= 5){
-                if((board1[y][x] === '') && (barco4.size + y <= 10) && (espaciosVaciosY(y,x,barco4, board1)=== true)){
-                    for (let j=0; j<barco4.size; j++){
-                        board1[y + j][x] = barco4.simbol
-                        if(i===0){
-                            cruceroJugador.cruce1.coordenada.push([y + j,x])
-        
-                        }
-                        else if (i ===1){
-                            cruceroJugador.cruce2.coordenada.push([y + j,x])
-                        }
-                        else if(i===2){
-                            cruceroJugador.cruce3.coordenada.push([y + j,x])
-                        }
-                        
-                        
-                    }
-                    
-                } else {
-                    i--
-                    } 
+                
             }
-
+            
+        } else {
+            i--
+            }
         }
     
     for (let i = 0; i<barco5.amount; i++){
         let x = getRandomInt(ROWS)
         let y = getRandomInt(ROWS)
-        let vertical = getRandomInt(10)
-        if (vertical < 5){
-            if((board1[y][x] === '') && (barco5.size + x <= 10) && (espaciosVacios(y,x,barco5, board1)=== true)){
-                for (let j=0; j<barco5.size; j++){
-                    board1[y][x+j] = barco5.simbol
-                }
-                
-            } else {
-                i--
-                }
-            }else if (vertical>=5){
-                if((board1[y][x] === '') && (barco5.size + y <= 10) && (espaciosVaciosY(y,x,barco5, board1)=== true)){
-                    for (let j=0; j<barco5.size; j++){
-                        board1[y+j][x] = barco5.simbol
-                    }
-                    
-                } else {
-                    i--
-                    } 
+        if((board1[y][x] === '') && (barco5.size + x <= 10) && (espaciosVacios(y,x,barco5, board1)=== true)){
+            for (let j=0; j<barco5.size; j++){
+                board1[y][x+j] = barco5.simbol
             }
-
+            
+        } else {
+            i--
+            }
         }
     
 
@@ -522,3 +412,8 @@ while(turnoJugador1=== false && turnoJugador2=== false ){
     turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
     
 }
+
+
+
+
+
