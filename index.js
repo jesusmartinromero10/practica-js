@@ -68,6 +68,11 @@ let cruceroJugador2 = {
         vidas : crucero.vida}
 }
 
+let turnos = {
+    numeroTurno1 : 1,
+    numeroTurno2 : 1
+}
+
 function espaciosVacios (y,x, barco, board1){
     for (let i=0; i<barco.size ; i++){
         if(board1[y][x + i]=== ''){
@@ -457,7 +462,7 @@ function printHeading(text) {
     console.log(`==========${pad}==========`)
 }
 
-function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador, jugadorTableroMano){
+function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vida, submarinoJugador, cruceroJugador, jugadorTableroMano, numeroTurno){
     let turno = true
     let ganador = false
     while(turno){
@@ -466,7 +471,7 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
         let arr = shootMano.map(value => JSON.stringify(value) === JSON.stringify([yTiro, xTiro]))
         if(arr.includes(true) === false){
             shootMano.push([yTiro, xTiro])
-            printHeading(`Turno de ${jugadorMano}`)
+            printHeading(`Turno ${numeroTurno} del ${jugadorMano}`)
             printHeading(`Disparo del ${jugadorMano} es ${yTiro}, ${xTiro}`)
             printHeading(`Le quedan ${SHOOTS-shootMano.length} disparos`)
             printHeading(`Tablero de barcos del ${jugadorMano}`)
@@ -476,6 +481,15 @@ function turnoJugador (jugadorContrario, shootMano, vacioturno, jugadorMano, vid
             let comproba = comprobarTocado(jugadorContrario, vacioturno, vida, submarinoJugador, cruceroJugador)
             if (comproba=== '💧'){
                 turno = false
+                if (jugadorMano === "Jugador1") {
+                    turnos.numeroTurno1 += 1
+                }
+                else {
+                    turnos.numeroTurno2 += 1
+                }
+                
+                
+
             }
             else if (comproba === '💥'){
                
@@ -512,13 +526,13 @@ printHeading('Tablero Jugador 2')
 console.table(jugador2)
 
 console.log('Comienzan las rondas de disparos')
-let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1)
-let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
+let turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1, turnos.numeroTurno1)
+let turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2, turnos.numeroTurno2)
 while(turnoJugador1=== false && turnoJugador2=== false ){
-    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1)
+    turnoJugador1 = turnoJugador(jugador2, shoots1, vacio1, 'Jugador1', vida1, submarinoJugador2, cruceroJugador2, jugador1, turnos.numeroTurno1)
     if (turnoJugador1 === true){
         break
     }
-    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2)
+    turnoJugador2 = turnoJugador(jugador1, shoots2, vacio2, 'Jugador2', vida2, submarinoJugador1, cruceroJugador1, jugador2, turnos.numeroTurno2)
     
 }
